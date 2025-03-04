@@ -1,3 +1,6 @@
+<!-- holaaaa
+ -->
+
 <?php
 session_start();
 if(empty($_SESSION["usu_id"])){
