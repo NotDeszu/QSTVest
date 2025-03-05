@@ -75,7 +75,7 @@ $cantidadCarrito = $conn->query($sqlCantTotCarr);
         <div class="row">
             <div class="col-lg-2">
                 <div class="header__logo">
-                    <a href="./index.php"><img src="img/logo rm ck.png" alt="" width="200"></a>
+                    <a href="./index.php"><img src="img/logo rm qs.png" alt="" width="200"></a>
                 </div>
             </div>
             <div class="col-lg-7">

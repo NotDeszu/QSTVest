@@ -38,7 +38,7 @@ include "../../funciones/usuario.php";
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="img/logo rm ck.png" alt=""></a>
+            <a href="#"><img src="img/logo rm qs.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -114,7 +114,7 @@ include "../../funciones/usuario.php";
 
 
     <!-- Breadcrumb Section Begin -->
-    <section class="blog-details-hero set-bg" data-setbg="img/blog/details/lapicescasakuri2.png">
+    <section class="blog-details-hero set-bg" data-setbg="img/chalecosVest.png">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

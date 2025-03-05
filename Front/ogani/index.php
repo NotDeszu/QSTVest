@@ -42,7 +42,7 @@ include "../../funciones/usuario.php";
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="img/logo rm ck.png" alt=""></a>
+            <a href="#"><img src="img/logo rm qs.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -119,7 +119,7 @@ include "../../funciones/usuario.php";
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-3">
                     <div class="hero__categories">
                         <div class="hero__categories__all">
@@ -139,30 +139,31 @@ include "../../funciones/usuario.php";
                         <li><a >Tijeras</a></li>
                         </ul>
                     </div>
-                </div>
-                <div class="col-lg-9">
+                </div> -->
+                <!-- <div class="col-lg-9"> -->
                     <div class="hero__search">
                         <div class="hero__search__form">
                             <form action="#">
-                                <a class="btn-shine">Casa kuri Donde cada idea encuentra su herramienta perfecta</a>
+                                <a class="btn-shine">
+                                QST Vest, llevando la seguridad del futuro a cada trabajador hoy.</a>
                             </form>
                         </div>
                         <div class="hero__search__phone">
-                            <button class="btn">Casa kuri</button>
+                            <button class="btn">QST Vest</button>
                         </div>
                     </div>
                     <!--EMPIEZA seccion de banner?-->
-                    <div class="hero__item set-bg" data-setbg="img/hero/BannerCKr.png">
+                    <div class="hero__item set-bg" data-setbg="img/hero/bannerQst.png">
                         <div class="hero__text">
-                            <span>Papeleria</span>
-                            <h2>Casa<br /> kuri</h2>
-                            <p>Los mejores productos de papeleria</p>
+                            <span>Chalecos de Seguridad</span>
+                            <h2>QST<br /> Vest</h2>
+                            <p>La seguridad del futuro</p>
                             <a href="shop-grid.php" class="primary-btn">Comprar ahora</a>
                         </div>
                     </div>
                     <!--quiero poner otra cosa aqui-->
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
     </section>
     <!-- Hero Section End -->
@@ -173,28 +174,28 @@ include "../../funciones/usuario.php";
             <div class="row">
                 <div class="categories__slider owl-carousel">
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/libreta.png">
-                            <h5><a >Libretas</a></h5>
+                        <div class="categories__item set-bg" data-setbg="img/categories/chalecoAzul.png">
+                            <h5><a >Chaleco inteligente</a></h5>
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/pegamentoprint.png">
-                            <h5><a >Pegamento Lapiz</a></h5>
+                        <div class="categories__item set-bg" data-setbg="img/categories/accessPindustrial.png">
+                            <h5><a >Acces Point Indusrial</a></h5>
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/plumonrojob.png">
-                            <h5><a >Plumones</a></h5>
+                        <div class="categories__item set-bg" data-setbg="img/categories/chalecoVerde.png">
+                            <h5><a >Chaleco inteligente</a></h5>
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/tijeraspelikan.png">
-                            <h5><a >Tijeras</a></h5>
+                        <div class="categories__item set-bg" data-setbg="img/categories/access.png">
+                            <h5><a >Acces Point Indusrial</a></h5>
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/test.png">
-                            <h5><a >Resistoles</a></h5>
+                        <div class="categories__item set-bg" data-setbg="img/categories/ChalecoNaranja.png">
+                            <h5><a >Chaleco inteligente</a></h5>
                         </div>
                     </div>
                 </div>
@@ -217,12 +218,12 @@ include "../../funciones/usuario.php";
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="img/banner/Banner1.png" alt="">
+                        <img src="img/banner/Banner11.png" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="img/banner/Banner2.png" alt="">
+                        <img src="img/banner/Banner22.png" alt="">
                     </div>
                 </div>
             </div>

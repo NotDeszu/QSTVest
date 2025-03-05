@@ -53,7 +53,7 @@ echo "<!-- Debug: Number of products found: " . count($products) . " -->";
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="img/logo rm ck.png" alt=""></a>
+            <a href="#"><img src="img/logo rm qs.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -119,7 +119,7 @@ echo "<!-- Debug: Number of products found: " . count($products) . " -->";
     <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/lapicescasakuri.png">
+    <section class="breadcrumb-section set-bg" data-setbg="img/chalecosVest.png">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
