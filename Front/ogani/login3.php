@@ -52,7 +52,7 @@
                     </div>
                 </form>
                 <div class="logo">
-                    <img src="img/logo rm qs.png" alt="CASA KURI Logo">
+                    <img src="img/logo rm qs.png" alt="QST Vest Logo">
                 </div>
             </div>
         </div>

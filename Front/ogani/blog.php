@@ -17,6 +17,10 @@ include "../../funciones/usuario.php";
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
+    <!-- Chart.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
@@ -114,20 +118,12 @@ include "../../funciones/usuario.php";
 
 
     <!-- Breadcrumb Section Begin -->
-    <section class="blog-details-hero set-bg" data-setbg="img/chalecosVest.png">
+    <section class="breadcrumb-section set-bg" data-setbg="img/chalecosVest.png">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="blog__details__hero__text">
-                        <h2>Explora un mundo de creatividad en nuestra tienda donde cada idea encuentra su herramienta perfecta</h2>
-                        <ul>
-                            <li>por Felipe Cruz</li>
-                            <li>Julio 10, 2024</li>
-                        </ul>
-                        <div class="breadcrumb__option">
-                            <a href="./index.php">Home</a>
-                            <span>Blog</span>
-                        </div>
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>QST Vest, llevando la seguridad del futuro a cada trabajador hoy.</h2>
                     </div>
                 </div>
             </div>
@@ -137,165 +133,14 @@ include "../../funciones/usuario.php";
 
 <!-- Blog Details Section Begin -->
 <section class="blog-details spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-5 order-md-1 order-2">
-                    <div class="blog__sidebar">
-                        <div class="blog__sidebar__item">
-                            <h4>Valores</h4>
-                            <ul>
-                                <li><a>Calidad</a></li>
-                                <li><a>Servicio</a></li>
-                                <li><a>Innovacion</a></li>
-                                <li><a>Integridad</a></li>
-                                <li><a>Responsabilidad</a></li>
-                            </ul>
-                        </div>
-                        <div class="blog__sidebar__item">
-                            <h4>Mision</h4>
-                            <ul>
-                                <li><p>Proveer productos de papelería de alta calidad y accesibles.</p></li>
-                                <li><p>Ofrecer un servicio al cliente excepcional.</p></li>
-                                <li><p>Fomentar relaciones duraderas con proveedores</p></li>
-                            </ul>
-                        </div>
-                        <div class="blog__sidebar__item">
-                            <h4>Vision</h4>
-                            <ul>
-                                <li><p>Expandir nuestra presencia física y digital.</p></li>
-                                <li><p>Liderar en innovación en el sector de papelería.</p></li>
-                                <li><p>Ser la tienda de papelería líder y de referencia.</p></li>
-                            </ul>
-                        </div>
-                        <div class="blog__sidebar__item">
-                            <h4>Objetivos</h4>
-                            <ul>
-                                <li><p>Incrementar ventas un 20% anual.</p></li>
-                                <li><p>Añadir 25 nuevos productos al año</p></li>
-                                <li><p>Mejorar la capacitación del personal.</p></li>
-                            </ul>
-                        </div>
-                        <div class="blog__sidebar__item">
-                            <h4>Sucursales Casa Kuri</h4>
-                            <div class="blog__sidebar__recent">
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img src="img/blog/sidebar/qro2.jpg" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>Queretaro<br /> </h6>
-                                        <span>Julio 27, 2019</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img src="img/blog/sidebar/mtry2.jpg" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>Monterrey<br /> </h6>
-                                        <span>MAR 07, 2021</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img src="img/blog/sidebar/gdlj2.jpg" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>Guadalajara<br /> </h6>
-                                        <span>Nov 23, 2023</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 col-md-7 order-md-1 order-1">
-                    <div class="blog__details__text">
-                        <h3>Casa Kuri</h3>
-                        <img src="img/blog/details/Prod.jpg" alt="">
-                        <p>En Casa Kuri, nos enorgullecemos de ofrecerte los mejores productos de papelería del mercado. Desde útiles escolares hasta suministros de oficina, tenemos todo lo que necesitas para tu día a día. Nuestra amplia gama de productos incluye lápices, plumas, cuadernos, carpetas, y mucho más, siempre con la mejor calidad y a precios competitivos.
-                            Sabemos lo importante que es contar con materiales confiables y de alta calidad, por eso, trabajamos incansablemente para asegurarnos de que cada artículo que encuentres en Casa Kuri cumpla con tus expectativas. Ya sea que estés preparando a tus hijos para el nuevo año escolar o abasteciendo tu oficina, estamos aquí para ayudarte a encontrar exactamente lo que necesitas.
-                            Además, en Casa Kuri creemos en la importancia de un servicio al cliente excepcional. Nos comprometemos a brindarte una experiencia de compra agradable y personalizada. Nuestro equipo está siempre dispuesto a asesorarte y resolver cualquier duda que puedas tener.
-                            Te invitamos a visitar nuestra tienda y descubrir por ti mismo la diferencia que hace comprar en Casa Kuri. Únete a nuestra familia de clientes satisfechos y disfruta de los beneficios de comprar en una tienda que realmente se preocupa por ti.</p>
-                        <h3>Casa Kuri: Tu Aliado de Confianza en Productos de Papelería de Alta Calidad para Todas tus Necesidades</h3>
-                        <p>En Casa Kuri, nos esforzamos diariamente para ser tu mejor opción en productos de papelería. Nos enorgullece ofrecer una amplia selección de artículos de la más alta 
-                            calidad, respaldados por un servicio al cliente excepcional. Creemos en la importancia de los pequeños detalles y en la diferencia que estos pueden hacer en tu vida diaria, ya sea en el ámbito escolar, profesional o personal. Te invitamos a unirte a nuestra comunidad de clientes satisfechos y a experimentar la comodidad y satisfacción de comprar con una empresa que valora tu confianza y se dedica a brindarte lo mejor. Gracias por elegir Casa Kuri, donde cada compra es una inversión en calidad y servicio.</p>
-                    </div>
-                    <div class="blog__details__content">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="blog__details__author">
-                                    <div class="blog__details__author__pic">
-                                        <img src="img/blog/details/desu.jpg" alt="">
-                                    </div>
-                                    <div class="blog__details__author__text">
-                                        <h6>Felipe Cruz</h6>
-                                        <span>Admin</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="blog__details__widget">
-                                    <ul>
-                                        <li><span>Cualidades:</span> Creativo, Responsable, Lider</li>
-                                    </ul>
-                                    <div class="blog__details__social">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="blog__details__author">
-                                    <div class="blog__details__author__pic">
-                                        <img src="img/blog/details/alex.jpg" alt="">
-                                    </div>
-                                    <div class="blog__details__author__text">
-                                        <h6>Alex Fajardo</h6>
-                                        <span>Admin</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="blog__details__widget">
-                                    <ul>
-                                        <li><span>Cualidades:</span> Responsable, Empatico, lider</li>
-                                    </ul>
-                                    <div class="blog__details__social">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="blog__details__author">
-                                    <div class="blog__details__author__pic">
-                                        <img src="img/blog/details/rosbb.png" alt="">
-                                    </div>
-                                    <div class="blog__details__author__text">
-                                        <h6>Diego Rosales</h6>
-                                        <span>Admin</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="blog__details__widget">
-                                    <ul>
-                                        <li><span>Cualidades:</span> Puntual, Resiliente, Responsable</li>
-                                    </ul>
-                                    <div class="blog__details__social">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+        if(empty($_SESSION["usu_id"])){
+            include "nochaleco.html";
+        }else{
+            include "graficaChalecos.html";
+        }
+    ?>
+</section>
     <!-- Blog Details Section End -->
 
     <!-- Related Blog Section Begin -->
@@ -316,8 +161,171 @@ include "../../funciones/usuario.php";
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyCzMlLlVZB-mX5BP3jKbQTaxHKKK2h-Z3k",
+        authDomain: "qstvest.firebaseapp.com",
+        databaseURL: "https://qstvest-default-rtdb.firebaseio.com",
+        projectId: "qstvest",
+        storageBucket: "qstvest.firebasestorage.app",
+        messagingSenderId: "581299055269",
+        appId: "1:581299055269:web:5f9b082b0a8b95b497fb4c",
+        measurementId: "G-2JD2XZP620"
+    };
 
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+    
+    // Reference to your ESP32 data in Firebase
+    // Change 'esp32_data' to match your actual Firebase path where ESP32 data is stored
+    const dataRef = ref(database, '/gas');
+    
+    // Initialize chart data
+    let chartLabels = [];
+    let chartData = [];
+    let chart;
+    
+    // Initialize the chart
+    function initChart() {
+        const ctx = document.getElementById('sensorChart').getContext('2d');
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Datos del Sensor',
+                    data: chartData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Datos del ESP32 en tiempo real'
+                    }
+                }
+            }
+        });
+    }
+    
+    // Update the chart with new data
+    function updateChart(newData) {
+        // Add timestamp as label (convert to readable format)
+        const date = new Date();
+        const timeString = date.toLocaleTimeString();
+        
+        // Keep only the last 10 data points for better visualization
+        if (chartLabels.length > 9) {
+            chartLabels.shift();
+            chartData.shift();
+        }
+        
+        // Add new data
+        chartLabels.push(timeString);
+        // If newData is a simple value (number or string), use it directly
+        // Otherwise, try to extract the value property
+        const dataValue = typeof newData === 'object' && newData !== null ? 
+                         (newData.value !== undefined ? newData.value : Object.values(newData)[0]) : 
+                         newData;
+        
+        chartData.push(dataValue);
+        
+        // Update chart
+        chart.update();
+        
+        // Update latest data display
+        document.getElementById('latestData').innerHTML = `
+            <p><strong>Último valor:</strong> ${dataValue}</p>
+            <p><strong>Tiempo:</strong> ${timeString}</p>
+        `;
+    }
+    
+    // Listen for data changes in Firebase
+    onValue(dataRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            // If chart is not initialized yet, initialize it
+            if (!chart) {
+                initChart();
+            }
+            
+            // If data is an object with multiple entries (historical data)
+            if (typeof data === 'object' && !Array.isArray(data) && Object.keys(data).length > 1) {
+                // Convert object to array
+                const dataArray = Object.entries(data).map(([key, value]) => {
+                    // Handle both value-only data and object data
+                    return {
+                        key: key,
+                        value: typeof value === 'object' ? value.value : value,
+                        // Use the key as timestamp if it's numeric, otherwise use current time
+                        timestamp: !isNaN(Number(key)) ? Number(key) : Date.now() - (Object.keys(data).length - Object.keys(data).indexOf(key)) * 1000
+                    };
+                });
+                
+                // Sort by key (assuming keys are sequential or timestamps)
+                dataArray.sort((a, b) => a.timestamp - b.timestamp);
+                
+                // Reset chart data
+                chartLabels = [];
+                chartData = [];
+                
+                // Get the last 10 entries or less
+                const recentData = dataArray.slice(-10);
+                
+                // Add data to chart
+                recentData.forEach(entry => {
+                    const date = new Date(entry.timestamp);
+                    chartLabels.push(date.toLocaleTimeString());
+                    chartData.push(entry.value);
+                });
+                
+                // Update chart
+                chart.update();
+                
+                // Update latest data display with the most recent entry
+                if (recentData.length > 0) {
+                    const latestEntry = recentData[recentData.length - 1];
+                    const date = new Date(latestEntry.timestamp);
+                    document.getElementById('latestData').innerHTML = `
+                        <p><strong>Último valor:</strong> ${latestEntry.value}</p>
+                        <p><strong>Tiempo:</strong> ${date.toLocaleTimeString()}</p>
+                    `;
+                }
+            } else {
+                // If it's a single data point or simple structure, update the chart
+                updateChart(data);
+            }
+        }
+    });
+    </script>
 
 </body>
 

@@ -78,7 +78,7 @@ $cantidadCarrito = $conn->query($sqlCantTotCarr);
                     <a href="./index.php"><img src="img/logo rm qs.png" alt="" width="200"></a>
                 </div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-8">
                 <nav class="header__menu">
                     <ul>
                         <li><a href="./index.php">Inicio</a></li>
@@ -89,12 +89,12 @@ $cantidadCarrito = $conn->query($sqlCantTotCarr);
                                 <li><a href="./shoping-cart.php">Carrito</a></li>
                             </ul>
                         </li>
-                        <li><a href="./blog.php">Blog</a></li>
+                        <li><a href="./blog.php">Mis chalecos</a></li>
                         <li><a href="./contact.php">Contactanos</a></li>
                     </ul>
                 </nav>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div class="header__cart">
                     <?php
                     // Inicializa las variables para cantidad total y subtotal
