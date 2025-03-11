@@ -11,6 +11,10 @@
                             <div class="blog__details__chart">
                                 <canvas id="sensorChart" width="750" height="400"></canvas>
                             </div>
+                            <div class="blog__details__actions mt-4">
+                                <button id="saveToDbBtn" class="site-btn">Guardar datos en la base de datos</button>
+                                <div id="saveStatus" class="mt-2"></div>
+                            </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="blog__details__sidebar">
@@ -27,3 +31,30 @@
             </div>
         </div>
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Make sure the button exists before adding the event listener
+    const saveButton = document.getElementById('saveToDbBtn');
+    if (saveButton) {
+        saveButton.addEventListener('click', function() {
+            const saveStatus = document.getElementById('saveStatus');
+            saveStatus.innerHTML = '<p>Guardando datos...</p>';
+            
+            // Call the PHP script to save data
+            fetch('addFIredata.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        saveStatus.innerHTML = '<p class="text-success">' + data.message + '</p>';
+                    } else {
+                        saveStatus.innerHTML = '<p class="text-danger">' + data.message + '</p>';
+                    }
+                })
+                .catch(error => {
+                    saveStatus.innerHTML = '<p class="text-danger">Error: ' + error.message + '</p>';
+                });
+        });
+    }
+});
+</script>
