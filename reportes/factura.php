@@ -32,14 +32,14 @@ if ($ven_id > 0) {
     $pdf->SetMargins(10, 10, 10);
 
     // Título principal
-    $pdf->Cell(0, 10, 'CASA KURI', 0, 1, 'C');
+    $pdf->Cell(0, 10, 'QST VEST', 0, 1, 'C');
     $pdf->Ln(10);
 
     // Información de la tienda
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Cell(0, 10, 'Datos de la tienda', 0, 1, 'C');
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(0, 10, 'RFC: CKU621101CH8', 1, 1);
+    $pdf->Cell(0, 10, 'RFC: QST621101CH8', 1, 1);
     $pdf->Cell(0, 10, 'Domicilio: Prol. Ezequiel Montes, Queretaro,', 1, 1);
     $pdf->Cell(0, 10, 'C.P. 76130, QUERETARO, QUERETARO, Mexico', 1, 1);
     $pdf->Cell(0, 10, 'Tipo de Comprobante: I - Ingreso', 1, 1);

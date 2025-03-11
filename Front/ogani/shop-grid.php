@@ -120,15 +120,12 @@ echo "<!-- Debug: Number of products found: " . count($products) . " -->";
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/chalecosVest.png">
-        <div class="container">
+    <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Casa Kuri</h2>
-                        <h2>Productos</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.php">Home</a>
-                            <span>Shop</span>
+                        <p style="visibility: hidden;">Este texto es invisible.</p>
                         </div>
                     </div>
                 </div>
@@ -143,25 +140,11 @@ echo "<!-- Debug: Number of products found: " . count($products) . " -->";
             <div class="row">
                 <div class="col-lg-3 col-md-5">
                     <div class="sidebar">
-                        <div class="sidebar__item">
-                            <h4>Categorias</h4>
-                            <ul>
-                                <li><a>Plumas</a></li>
-                                <li><a>Cuadernos</a></li>
-                                <li><a>Calculadoras</a></li>
-                                <li><a>Sacapuntas</a></li>
-                                <li><a>Marcadores</a></li>
-                                <li><a>Carpetas</a></li>
-                                <li><a>Resistol</a></li>
-                                <li><a>Gomas de Borrar</a></li>
-                                <li><a>Reglas</a></li>
-                                <li><a>Tijeras</a></li>
-                            </ul>
-                        </div>
+
                         <!-- ctf -->
                         <div class="sidebar__item">
                             <div class="latest-product__text">
-                                <h4>Sucursales <br />Casa Kuri</h4>
+                                <h4>Sucursales QST VEST</h4>
                                 <div class="blog__sidebar__recent">
                                     <a class="blog__sidebar__recent__item">
                                         <div class="blog__sidebar__recent__item__pic">
@@ -177,7 +160,7 @@ echo "<!-- Debug: Number of products found: " . count($products) . " -->";
                                             <img src="img/blog/sidebar/gdlj2.jpg" alt="">
                                         </div>
                                         <div class="blog__sidebar__recent__item__text">
-                                            <h6>Sucursal<br /> Guadalajara</h6>
+                                            <h6>Sucursal<br /> San Luis</h6>
                                             <span>MAR 07, 2021</span>
                                         </div>
                                     </a>
@@ -186,7 +169,7 @@ echo "<!-- Debug: Number of products found: " . count($products) . " -->";
                                             <img src="img/blog/sidebar/mtry2.jpg" alt="">
                                         </div>
                                         <div class="blog__sidebar__recent__item__text">
-                                            <h6>Sucursal<br />Monterrey</h6>
+                                            <h6>Sucursal<br />Tamaulipas</h6>
                                             <span>Nov 23, 2023</span>
                                         </div>
                                     </a>
@@ -198,27 +181,13 @@ echo "<!-- Debug: Number of products found: " . count($products) . " -->";
                 <!-- ctf -->
                 <div class="col-lg-9 col-md-7">
                     <div class="section-title product__discount__title">
-                        <h2>Productos Papeleria Kuri</h2>
+                        <h2>Producto QST VEST</h2>
                     </div>
                     <!-- empieza filtros de busqueda -->
                     <form method="GET" action="">
                         <div class="filter__item">
                             <div class="row">
-                                <div class="col-lg-4 col-md-5">
-                                    <div class="filter__sort">
-                                        <span>Sucursal:</span>
-                                        <select name="sucursal">
-                                            <option value="0">Todos</option>
-                                            <?php
-                                            $sucursales = getSucursales();
-                                            foreach ($sucursales as $sucursal) {
-                                                $selected = ($_GET['sucursal'] == $sucursal['suc_id']) ? 'selected' : '';
-                                                echo "<option value='" . $sucursal['suc_id'] . "' $selected>" . $sucursal['suc_nombre'] . "</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
+
                                 <div class="col-lg-4 col-md-5">
                                     <div class="filter__sort">
                                         <span>Categoria:</span>

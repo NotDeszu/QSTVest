@@ -46,7 +46,7 @@ $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 24);
 
 $pdf->Cell(0, 10, 'Reporte de ventas', 0, 1, "C");
-$pdf->Image("logo.png", 160, 10, 40, 15, 'png');
+$pdf->Image("../Front/ogani/img/logo rm qs.png", 160, 10, 40, 15, 'png');
 
 $pdf->SetFont('Arial', 'B', 12);  // Aumenté el tamaño de la fuente
 $pdf->Ln(10);

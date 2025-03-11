@@ -83,12 +83,6 @@ $cantidadCarrito = $conn->query($sqlCantTotCarr);
                     <ul>
                         <li><a href="./index.php">Inicio</a></li>
                         <li><a href="./shop-grid.php">Productos</a></li>
-                        <li><a href="#">Paginas</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="./shop-details.php">Productos</a></li>
-                                <li><a href="./shoping-cart.php">Carrito</a></li>
-                            </ul>
-                        </li>
                         <li><a href="./blog.php">Mis chalecos</a></li>
                         <li><a href="./contact.php">Contactanos</a></li>
                     </ul>

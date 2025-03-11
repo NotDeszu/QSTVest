@@ -70,27 +70,7 @@ include "../../funciones/usuario.php";
                 </a>
             </div>
         </div>
-        <nav class="humberger__menu__nav mobile-menu">
-            <ul>
-                <li class="active"><a href="./index.php">Home</a></li>
-                <li><a href="./shop-grid.php">Shop</a></li>
-                <li><a href="#">Pages</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.php">Shop Details</a></li>
-                        <li><a href="./shoping-cart.php">Shoping Cart</a></li>
-                        <li><a href="./checkout.php">Check Out</a></li>
-                        <li><a href="./blog-details.php">Blog Details</a></li>
-                    </ul>
-                </li>
-                <li><a href="./blog.php">Blog</a></li>
-                <li><a href="./contact.php">Contact</a></li>
-            </ul>
-        </nav>
-        <div id="mobile-menu-wrap"></div>
-        <div class="header__top__right__social">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-        </div>
+
         <div class="humberger__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i> 
@@ -122,10 +102,8 @@ include "../../funciones/usuario.php";
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Contactanos</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.php">Home</a>
-                            <span>Contactanos</span>
+                        <p style="visibility: hidden;">Este texto es invisible.</p>
                         </div>
                     </div>
                 </div>

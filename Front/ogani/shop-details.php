@@ -1,5 +1,3 @@
-<!-- Esta es la pagina que muestra el producto cuando el usuario le da click -->
-
 <?php
 session_start();
 include("../../BD/conexion.php");
@@ -24,30 +22,49 @@ if ($product_id > 0) {
     exit;
 }
 
-// If the product is not set and the request is not a form submission, redirect to shop-grid.php
-// if (!$product) {
-//     header("Location: shop-grid.php");
-//     exit;
-// }
+// Consulta para obtener la sucursal con mayor inventario
+$sucsql = "SELECT * FROM inventario i, sucursal s WHERE pro_id = " . $product_id . " AND i.suc_id = s.suc_id ORDER BY inv_existencia DESC LIMIT 1";
+$sucres = mysqli_query($conn, $sucsql);
+$selected_sucursal = null;
+if (mysqli_num_rows($sucres) > 0) {
+    $selected_sucursal = mysqli_fetch_array($sucres);
+}
 
 // Check if the form has been submitted
 $formSubmitted = isset($_GET['agregar']);
 $message = '';
 
 if ($formSubmitted) {
+    // Si no se seleccionó sucursal, obtenemos la sucursal con más existencia
     $sucursal = isset($_GET['inventa']) ? $_GET['inventa'] : '';
 
-    if (empty($_SESSION["usu_id"])) {
+    // Si no se ha seleccionado sucursal, obtenemos la de mayor inventario
+    if (empty($sucursal)) {
+        // Si la sucursal con mayor inventario existe, la asignamos
+        if ($selected_sucursal) {
+            $sucursal = $selected_sucursal['inv_id'];
+        }
+    }
+
+    // Validación del stock
+    $cantidad = isset($_GET['cant']) ? intval($_GET['cant']) : 0;
+    if ($cantidad > $selected_sucursal['inv_existencia']) {
+        $message = "<div class='alert alert-danger'>La cantidad solicitada supera el stock disponible. Solo hay " . $selected_sucursal['inv_existencia'] . " unidades disponibles.</div>";
+    }
+
+    // Si el usuario no está logueado, mostrar mensaje
+    elseif (empty($_SESSION["usu_id"])) {
         $message = "<div class='alert alert-danger'>Para comprar productos, debe de iniciar sesión</div>";
-        $message .= "<div class='alert alert-danger'>¡Si no tienes cuenta, <a href='RegistroUsuario.html'>registrate aqui!</a></div>";
+        $message .= "<div class='alert alert-danger'>¡Si no tienes cuenta, <a href='RegistroUsuario.html'>regístrate aquí!</a></div>";
     } elseif (empty($sucursal)) {
+        // Si no se selecciona una sucursal o no se encuentra la sucursal con mayor cantidad
         $message = "<div class='alert alert-danger'>Escoge una sucursal.</div>";
     } else {
+        // Si todo está correcto, agregar al carrito
         include 'carritoGuarda.php';
         $message = "<div class='alert alert-success'>Producto agregado al carrito.</div>";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -115,27 +132,7 @@ if ($formSubmitted) {
                 </a>
             </div>
         </div>
-        <nav class="humberger__menu__nav mobile-menu">
-            <ul>
-                <li class="active"><a href="./index.php">Home</a></li>
-                <li><a href="./shop-grid.php">Shop</a></li>
-                <li><a href="#">Pages</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.php">Shop Details</a></li>
-                        <li><a href="./shoping-cart.php">Shoping Cart</a></li>
-                        <li><a href="./checkout.php">Check Out</a></li>
-                        <li><a href="./blog-details.php">Blog Details</a></li>
-                    </ul>
-                </li>
-                <li><a href="./blog.php">Blog</a></li>
-                <li><a href="./contact.php">Contact</a></li>
-            </ul>
-        </nav>
-        <div id="mobile-menu-wrap"></div>
-        <div class="header__top__right__social">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-        </div>
+
         <div class="humberger__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i>
@@ -161,20 +158,7 @@ if ($formSubmitted) {
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/chalecosVest.png">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Pagina de Producto</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./index.php">Home</a>
-                            <a href="./shop-grid.php">shop</a>
-                            <span><?php echo htmlspecialchars($product['pro_Producto']); ?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </section>
     <!-- Breadcrumb Section End -->
 
@@ -200,95 +184,32 @@ if ($formSubmitted) {
 
                         <!--fORMULARIO DE CARRITO-->
                         <div>
+                        <div>
                         <form action="shop-details.php" method="GET">
-                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($product['pro_id']); ?>">
-                            
-                            <h3>Selecciona la sucursal: </h3>
-                            <?php if (isset($message)) echo $message; ?>
-                            <select id="inventa" name="inventa" onchange="cantidadMax()" required>
-                                <option value="">Seleccione una sucursal</option>
-                                <?php
-                                // Consulta para obtener las existencias y sucursales
-                                $sucsql = "SELECT * FROM inventario i, sucursal s WHERE pro_id = " . $product_id . " AND i.suc_id = s.suc_id";
-                                $sucres = mysqli_query($conn, $sucsql); // Ejecuta la consulta
-                                if (!$sucres) {
-                                    die("Error en la consulta: " . mysqli_error($conn)); // Manejo de errores
-                                }
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($product['pro_id']); ?>">
 
-                                if (mysqli_num_rows($sucres) > 0) {
-                                    while ($existe = mysqli_fetch_array($sucres)) { ?>
-                                        <option value="<?php echo $existe["inv_id"]; ?>" data-existencia="<?php echo $existe["inv_existencia"]; ?>">
-                                            <?php echo $existe["suc_nombre"]; ?>
-                                        </option>
-                                    <?php }
-                                } else { ?>
-                                    <option value="">Sin existencia</option>
-                                <?php } ?>
-                            </select>
+                <!-- Sucursal seleccionada automáticamente, no visible para el usuario -->
+                <?php if ($selected_sucursal) { ?>
+                    <input type="hidden" name="inventa" value="<?php echo $selected_sucursal['inv_id']; ?>">
+                <?php } ?>
 
-                            <br>
-                            <br>
-                            <p id="_in_clave"></p>
-                            <script>
-                                function cantidadMax() {
-                                    var select = document.getElementById("inventa");
-                                    var selectedOption = select.options[select.selectedIndex];
-                                    var existencias = selectedOption.getAttribute("data-existencia"); // Obtiene la cantidad de existencias
+                <h3>Cantidad</h3>
+                <div class="product__details__quantity">
+                    <div class="quantity">
+                        <input type="number" id="cant" name="cant" min="1" value="0" max="<?php echo $selected_sucursal['inv_existencia']; ?>" required>
+                    </div>
+                </div>
 
-                                    // Actualiza el párrafo con la cantidad de existencias
-                                    document.getElementById("_in_clave").innerHTML = "Cantidad en existencia: " + existencias;
+                <br>
+                <p id="_in_clave">Cantidad en existencia: <?php echo $selected_sucursal['inv_existencia']; ?></p>
 
-                                    // Establece el valor máximo del input de cantidad
-                                    var cantidadInput = document.getElementById("cant");
-                                    cantidadInput.setAttribute("max", existencias); // Establece el máximo
-                                    cantidadInput.value = 0; // Resetea el valor a 0 cuando se cambia la sucursal
-                                }
-                            </script>
+                <input type="hidden" id="cliente" name="cliente" value="<?php echo $usuario_id; ?>">
+                <input type="hidden" id="accion" name="accion" value="insCarrito">
 
-                            <h3>Cantidad</h3>
-                            <div class="product__details__quantity">
-                                <div class="quantity">
-                                    <div class="">
-                                        <input type="number" id="cant" name="cant" min="1" value="0" required>
-                                        <style>
-                                            input[type="number"] {
-                                                background-color: transparent;
-                                                width: 100px;
-                                                border: 1px solid #ccc;
-                                                /* Cambia el color del borde si es necesario */
-                                                color: #000;
-                                                /* Cambia el color del texto si es necesario */
-                                                padding: 5px;
-                                                /* Ajusta el relleno según tus necesidades */
-                                                font-size: 16px;
-                                                /* Ajusta el tamaño de la fuente según tus necesidades */
-                                                outline: none;
-                                                border:line;
-                                                /* Elimina el contorno al hacer clic */
-                                            }
-                                        </style>
-                                    </div>
-                                </div>
-                            </div>
+                <br>
 
-                            <br>
-                            <input type="hidden" id="cliente" name="cliente" value="<?php echo $usuario_id; ?>">
-                            <input type="hidden" id="accion" name="accion" value="insCarrito">
-
-                            <br>
-                            <?php
-                            if (isset($_SESSION['msg']) && isset($_SESSION['color'])) { ?>
-                                <div class="alert alert-<?= $_SESSION['color']; ?> alert-dismissible fade show" role="alert">
-                                    <?= $_SESSION['msg']; ?>
-                                    <button id="agregar" name="agregar" class="primary-btn" type="submit"> Agregar al Carrito</button>
-                                </div>
-                            <?php
-                                unset($_SESSION['color']);
-                                unset($_SESSION['msg']);
-                            }
-                            ?>
-                            <button id="agregar" name="agregar" class="primary-btn" type="submit">Agregar al Carrito</button>
-                        </form>
+                <button id="agregar" name="agregar" class="primary-btn" type="submit">Agregar al Carrito</button>
+            </form>
 
                         </div>
                         

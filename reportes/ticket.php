@@ -40,7 +40,7 @@ $pdf->SetFont('Arial', 'B', 9);
 
 $pdf->Ln(7);
 
-$pdf->MultiCell(70, 5, 'CASA KURI', 0, 'C');
+$pdf->MultiCell(70, 5, 'QST VEST', 0, 'C');
 
 $pdf->Ln(1);
 
