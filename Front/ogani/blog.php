@@ -118,9 +118,9 @@ include "../../funciones/usuario.php";
 <section class="blog-details spad">
     <?php
         if(empty($_SESSION["usu_id"])){
-            include "nochaleco.html";
+            include "chalecos/nochaleco.html";
         }else{
-            include "graficaChalecos.html";
+            include "chalecos/seleccionChaleco.html";
         }
     ?>
 </section>
@@ -171,25 +171,95 @@ include "../../funciones/usuario.php";
     const analytics = getAnalytics(app);
     const database = getDatabase(app);
     
-    // Reference to your ESP32 data in Firebase
-    // Change 'esp32_data' to match your actual Firebase path where ESP32 data is stored
-    const dataRef = ref(database, '/gas');
+    // Reference to your ESP32 data in Firebase with the new structure
+    const bpmRef = ref(database, 'bpm001');
+    const dbRef = ref(database, 'db001');
+    const gasRef = ref(database, 'gas001');
     
-    // Initialize chart data
+    // Initialize chart data for each sensor
     let chartLabels = [];
-    let chartData = [];
-    let chart;
+    let bpmData = [];
+    let dbData = [];
+    let gasData = [];
+    let bpmChart, dbChart, gasChart;
     
-    // Initialize the chart
-    function initChart() {
-        const ctx = document.getElementById('sensorChart').getContext('2d');
-        chart = new Chart(ctx, {
+    // Initialize the charts
+    function initCharts() {
+        // BPM Chart
+        const bpmCtx = document.getElementById('bpmChart').getContext('2d');
+        bpmChart = new Chart(bpmCtx, {
             type: 'line',
             data: {
                 labels: chartLabels,
                 datasets: [{
-                    label: 'Datos del Sensor',
-                    data: chartData,
+                    label: 'Frecuencia Cardíaca (BPM)',
+                    data: bpmData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+        
+        // DB Chart
+        const dbCtx = document.getElementById('dbChart').getContext('2d');
+        dbChart = new Chart(dbCtx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Decibeles (dB)',
+                    data: dbData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+        
+        // Gas Chart
+        const gasCtx = document.getElementById('gasChart').getContext('2d');
+        gasChart = new Chart(gasCtx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Sensor de Gas',
+                    data: gasData,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 2,
@@ -209,18 +279,14 @@ include "../../funciones/usuario.php";
                     legend: {
                         display: true,
                         position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Datos del ESP32 en tiempo real'
                     }
                 }
             }
         });
     }
     
-    // Update the chart with new data
-    function updateChart(newData) {
+    // Update the charts with new data
+    function updateCharts(bpmValue, dbValue, gasValue) {
         // Add timestamp as label (convert to readable format)
         const date = new Date();
         const timeString = date.toLocaleTimeString();
@@ -228,85 +294,79 @@ include "../../funciones/usuario.php";
         // Keep only the last 10 data points for better visualization
         if (chartLabels.length > 9) {
             chartLabels.shift();
-            chartData.shift();
+            bpmData.shift();
+            dbData.shift();
+            gasData.shift();
         }
         
         // Add new data
         chartLabels.push(timeString);
-        // If newData is a simple value (number or string), use it directly
-        // Otherwise, try to extract the value property
-        const dataValue = typeof newData === 'object' && newData !== null ? 
-                         (newData.value !== undefined ? newData.value : Object.values(newData)[0]) : 
-                         newData;
         
-        chartData.push(dataValue);
+        // Parse values appropriately
+        const bpmVal = typeof bpmValue === 'object' && bpmValue !== null ? 
+                      (bpmValue.value !== undefined ? bpmValue.value : Object.values(bpmValue)[0]) : 
+                      bpmValue;
         
-        // Update chart
-        chart.update();
+        const dbVal = typeof dbValue === 'object' && dbValue !== null ? 
+                     (dbValue.value !== undefined ? dbValue.value : Object.values(dbValue)[0]) : 
+                     dbValue;
+        
+        const gasVal = typeof gasValue === 'object' && gasValue !== null ? 
+                      (gasValue.value !== undefined ? gasValue.value : Object.values(gasValue)[0]) : 
+                      gasValue;
+        
+        // Add to datasets
+        bpmData.push(bpmVal);
+        dbData.push(dbVal);
+        gasData.push(gasVal);
+        
+        // Update charts
+        bpmChart.update();
+        dbChart.update();
+        gasChart.update();
         
         // Update latest data display
         document.getElementById('latestData').innerHTML = `
-            <p><strong>Último valor:</strong> ${dataValue}</p>
+            <p><strong>Frecuencia Cardíaca:</strong> ${bpmVal} BPM</p>
+            <p><strong>Decibeles:</strong> ${dbVal} dB</p>
+            <p><strong>Sensor de Gas:</strong> ${gasVal}</p>
             <p><strong>Tiempo:</strong> ${timeString}</p>
         `;
     }
     
-    // Listen for data changes in Firebase
-    onValue(dataRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            // If chart is not initialized yet, initialize it
-            if (!chart) {
-                initChart();
+    // Variable to track initialization and current values
+    let initialized = false;
+    let currentBpm = null;
+    let currentDb = null;
+    let currentGas = null;
+    
+    // Function to update when any data changes
+    function checkAndUpdateCharts() {
+        if (currentBpm !== null && currentDb !== null && currentGas !== null) {
+            if (!initialized) {
+                initCharts();
+                initialized = true;
             }
-            
-            // If data is an object with multiple entries (historical data)
-            if (typeof data === 'object' && !Array.isArray(data) && Object.keys(data).length > 1) {
-                // Convert object to array
-                const dataArray = Object.entries(data).map(([key, value]) => {
-                    // Handle both value-only data and object data
-                    return {
-                        key: key,
-                        value: typeof value === 'object' ? value.value : value,
-                        // Use the key as timestamp if it's numeric, otherwise use current time
-                        timestamp: !isNaN(Number(key)) ? Number(key) : Date.now() - (Object.keys(data).length - Object.keys(data).indexOf(key)) * 1000
-                    };
-                });
-                
-                // Sort by key (assuming keys are sequential or timestamps)
-                dataArray.sort((a, b) => a.timestamp - b.timestamp);
-                
-                // Reset chart data
-                chartLabels = [];
-                chartData = [];
-                
-                // Get the last 10 entries or less
-                const recentData = dataArray.slice(-10);
-                
-                // Add data to chart
-                recentData.forEach(entry => {
-                    const date = new Date(entry.timestamp);
-                    chartLabels.push(date.toLocaleTimeString());
-                    chartData.push(entry.value);
-                });
-                
-                // Update chart
-                chart.update();
-                
-                // Update latest data display with the most recent entry
-                if (recentData.length > 0) {
-                    const latestEntry = recentData[recentData.length - 1];
-                    const date = new Date(latestEntry.timestamp);
-                    document.getElementById('latestData').innerHTML = `
-                        <p><strong>Último valor:</strong> ${latestEntry.value}</p>
-                        <p><strong>Tiempo:</strong> ${date.toLocaleTimeString()}</p>
-                    `;
-                }
-            } else {
-                // If it's a single data point or simple structure, update the chart
-                updateChart(data);
-            }
+            updateCharts(currentBpm, currentDb, currentGas);
         }
+    }
+    
+    // Listen for BPM data changes in Firebase
+    onValue(bpmRef, (snapshot) => {
+        currentBpm = snapshot.val();
+        checkAndUpdateCharts();
+    });
+    
+    // Listen for DB data changes in Firebase
+    onValue(dbRef, (snapshot) => {
+        currentDb = snapshot.val();
+        checkAndUpdateCharts();
+    });
+    
+    // Listen for Gas data changes in Firebase
+    onValue(gasRef, (snapshot) => {
+        currentGas = snapshot.val();
+        checkAndUpdateCharts();
     });
     </script>
 

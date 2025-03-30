@@ -1,3 +1,0 @@
-[2025-03-11 06:17:02] Unknown column 'sensor_value' in 'field list'
-[2025-03-11 06:19:09] Unknown column 'sensor_value' in 'field list'
-[2025-03-11 06:19:17] Unknown column 'sensor_value' in 'field list'

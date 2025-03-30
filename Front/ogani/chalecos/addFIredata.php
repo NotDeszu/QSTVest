@@ -1,6 +1,6 @@
 <?php
 // Include database connection
-require_once '../../BD/conexion.php';
+require_once '../../../BD/conexion.php';
 
 // Firebase configuration
 $firebaseConfig = [
