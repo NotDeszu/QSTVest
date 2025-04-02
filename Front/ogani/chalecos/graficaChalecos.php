@@ -152,6 +152,9 @@ require_once '../../../BD/conexion.php';
                                     <div id="latestData">
                                         <p>Cargando datos...</p>
                                     </div>
+                                    <div class="mt-3">
+                                        <button id="testDataBtn" class="btn btn-primary">Probar con datos de ejemplo</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -165,9 +168,10 @@ require_once '../../../BD/conexion.php';
     
     <script type="module">
     // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
     
     // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -175,7 +179,7 @@ require_once '../../../BD/conexion.php';
         authDomain: "qstvest.firebaseapp.com",
         databaseURL: "https://qstvest-default-rtdb.firebaseio.com",
         projectId: "qstvest",
-        storageBucket: "qstvest.firebasestorage.app",
+        storageBucket: "qstvest.firestorage.app",
         messagingSenderId: "581299055269",
         appId: "1:581299055269:web:5f9b082b0a8b95b497fb4c",
         measurementId: "G-2JD2XZP620"
@@ -184,14 +188,10 @@ require_once '../../../BD/conexion.php';
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
+    const auth = getAuth(app);
     const database = getDatabase(app);
     
     console.log("Firebase initialized in graficaChalecos.php");
-    
-    // Reference to your ESP32 data in Firebase with the new structure
-    const bpmRef = ref(database, 'bpm001');
-    const dbRef = ref(database, 'db001');
-    const gasRef = ref(database, 'gas001');
     
     // Initialize chart data for each sensor
     let chartLabels = [];
@@ -199,6 +199,100 @@ require_once '../../../BD/conexion.php';
     let dbData = [];
     let gasData = [];
     let bpmChart, dbChart, gasChart;
+    
+    // Function to initialize database listeners once authenticated
+    function initializeFirebaseData() {
+        console.log("Initializing Firebase data after authentication");
+        
+        // Reference to your ESP32 data in Firebase
+        const bpmRef = ref(database, 'bpm001');
+        const dbRef = ref(database, 'db001');
+        const gasRef = ref(database, 'gas001');
+        
+        // Debug: List all available paths in the database
+        const rootRef = ref(database, '/');
+        onValue(rootRef, (snapshot) => {
+            console.log("Available Firebase paths:", snapshot.val());
+        }, (error) => {
+            console.error("Error getting database references:", error);
+            document.getElementById('latestData').innerHTML = `
+                <p class="text-danger"><strong>Error de conexión:</strong> ${error.message}</p>
+            `;
+        });
+        
+        // Listen for BPM data changes in Firebase
+        onValue(bpmRef, (snapshot) => {
+            const bpmValue = snapshot.val();
+            console.log("BPM data received:", bpmValue);
+            
+            if (bpmValue !== null) {
+                // Keep only the last 10 data points
+                if (bpmData.length > 9) {
+                    bpmData.shift();
+                }
+                bpmData.push(Number(bpmValue));
+                updateCharts();
+            }
+        }, (error) => {
+            console.error("Error getting BPM data:", error);
+        });
+        
+        // Listen for DB data changes in Firebase
+        onValue(dbRef, (snapshot) => {
+            const dbValue = snapshot.val();
+            console.log("DB data received:", dbValue);
+            
+            if (dbValue !== null) {
+                // Keep only the last 10 data points
+                if (dbData.length > 9) {
+                    dbData.shift();
+                }
+                dbData.push(Number(dbValue));
+                updateCharts();
+            }
+        }, (error) => {
+            console.error("Error getting DB data:", error);
+        });
+        
+        // Listen for Gas data changes in Firebase
+        onValue(gasRef, (snapshot) => {
+            const gasValue = snapshot.val();
+            console.log("Gas data received:", gasValue);
+            
+            if (gasValue !== null) {
+                // Keep only the last 10 data points
+                if (gasData.length > 9) {
+                    gasData.shift();
+                }
+                gasData.push(Number(gasValue));
+                updateCharts();
+            }
+        }, (error) => {
+            console.error("Error getting Gas data:", error);
+        });
+    }
+    
+    // Check for authentication state
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("User already signed in:", user.email);
+            initializeFirebaseData();
+        } else {
+            console.log("Attempting to sign in with default credentials...");
+            // Try to sign in
+            signInWithEmailAndPassword(auth, "fel@qstvest.com", "pass123")
+            .then((userCredential) => {
+                console.log("User signed in successfully:", userCredential.user.email);
+                initializeFirebaseData();
+            })
+            .catch((error) => {
+                console.error("Authentication failed:", error.code, error.message);
+                document.getElementById('latestData').innerHTML = `
+                    <p class="text-danger"><strong>Error de autenticación:</strong> ${error.message}</p>
+                `;
+            });
+        }
+    });
     
     // Initialize the charts
     function initCharts() {
@@ -268,7 +362,9 @@ require_once '../../../BD/conexion.php';
                         ...chartOptions.scales,
                         y: {
                             ...chartOptions.scales.y,
-                            beginAtZero: true
+                            beginAtZero: true,
+                            suggestedMin: 40,
+                            suggestedMax: 200
                         }
                     }
                 }
@@ -296,7 +392,9 @@ require_once '../../../BD/conexion.php';
                         ...chartOptions.scales,
                         y: {
                             ...chartOptions.scales.y,
-                            beginAtZero: false
+                            beginAtZero: false,
+                            suggestedMin: 0,
+                            suggestedMax: 120
                         }
                     }
                 }
@@ -318,7 +416,17 @@ require_once '../../../BD/conexion.php';
                         borderWidth: 2
                     }]
                 },
-                options: chartOptions
+                options: {
+                    ...chartOptions,
+                    scales: {
+                        ...chartOptions.scales,
+                        y: {
+                            ...chartOptions.scales.y,
+                            suggestedMin: 0,
+                            suggestedMax: 1000
+                        }
+                    }
+                }
             });
         }
         
@@ -326,7 +434,7 @@ require_once '../../../BD/conexion.php';
     }
     
     // Update the charts with new data
-    function updateCharts(bpmValue, dbValue, gasValue) {
+    function updateCharts() {
         // Add timestamp as label (convert to readable format)
         const date = new Date();
         const timeString = date.toLocaleTimeString();
@@ -334,46 +442,43 @@ require_once '../../../BD/conexion.php';
         // Keep only the last 10 data points for better visualization
         if (chartLabels.length > 9) {
             chartLabels.shift();
-            bpmData.shift();
-            dbData.shift();
-            gasData.shift();
         }
         
         // Add new data
         chartLabels.push(timeString);
         
-        // Parse values appropriately
-        const bpmVal = typeof bpmValue === 'object' && bpmValue !== null ? 
-                      (bpmValue.value !== undefined ? bpmValue.value : Object.values(bpmValue)[0]) : 
-                      bpmValue;
-        
-        const dbVal = typeof dbValue === 'object' && dbValue !== null ? 
-                     (dbValue.value !== undefined ? dbValue.value : Object.values(dbValue)[0]) : 
-                     dbValue;
-        
-        const gasVal = typeof gasValue === 'object' && gasValue !== null ? 
-                      (gasValue.value !== undefined ? gasValue.value : Object.values(gasValue)[0]) : 
-                      gasValue;
-        
-        // Add to datasets
-        bpmData.push(bpmVal);
-        dbData.push(dbVal);
-        gasData.push(gasVal);
-        
         // Update charts - use non-animated updates to prevent zooming
         if (bpmChart) {
+            bpmChart.data.labels = chartLabels;
+            bpmChart.data.datasets[0].data = bpmData;
             bpmChart.update('none'); // Disable animation for updates
         }
+        
         if (dbChart) {
+            dbChart.data.labels = chartLabels;
+            dbChart.data.datasets[0].data = dbData;
             dbChart.update('none'); // Disable animation for updates
         }
+        
         if (gasChart) {
+            gasChart.data.labels = chartLabels;
+            gasChart.data.datasets[0].data = gasData;
             gasChart.update('none'); // Disable animation for updates
         }
         
         // Update latest data display
+        updateLatestData();
+    }
+    
+    // Function to update the latest data display
+    function updateLatestData() {
         const latestDataElement = document.getElementById('latestData');
         if (latestDataElement) {
+            const bpmVal = bpmData.length > 0 ? bpmData[bpmData.length - 1] : "N/A";
+            const dbVal = dbData.length > 0 ? dbData[dbData.length - 1] : "N/A";
+            const gasVal = gasData.length > 0 ? gasData[gasData.length - 1] : "N/A";
+            const timeString = new Date().toLocaleTimeString();
+            
             latestDataElement.innerHTML = `
                 <p><strong>Frecuencia Cardíaca:</strong> ${bpmVal} BPM</p>
                 <p><strong>Decibeles:</strong> ${dbVal} dB</p>
@@ -383,64 +488,63 @@ require_once '../../../BD/conexion.php';
         }
     }
     
-    // Variable to track initialization and current values
-    let initialized = false;
-    let currentBpm = null;
-    let currentDb = null;
-    let currentGas = null;
-    
-    // Function to update when any data changes
-    function checkAndUpdateCharts() {
-        if (currentBpm !== null && currentDb !== null && currentGas !== null) {
-            if (!initialized) {
-                initCharts();
-                initialized = true;
-            }
-            updateCharts(currentBpm, currentDb, currentGas);
-        }
-    }
-    
-    // Listen for BPM data changes in Firebase
-    onValue(bpmRef, (snapshot) => {
-        currentBpm = snapshot.val();
-        console.log("BPM data received:", currentBpm);
-        checkAndUpdateCharts();
-    });
-    
-    // Listen for DB data changes in Firebase
-    onValue(dbRef, (snapshot) => {
-        currentDb = snapshot.val();
-        console.log("DB data received:", currentDb);
-        checkAndUpdateCharts();
-    });
-    
-    // Listen for Gas data changes in Firebase
-    onValue(gasRef, (snapshot) => {
-        currentGas = snapshot.val();
-        console.log("Gas data received:", currentGas);
-        checkAndUpdateCharts();
-    });
-    
-    // Initialize charts when document is ready
+    // Initialize charts when DOM is fully loaded
     document.addEventListener('DOMContentLoaded', function() {
-        console.log("DOM Content Loaded, checking for chart elements");
+        console.log("DOM Content Loaded, initializing charts");
+        initCharts();
         
-        // Check if chart elements exist
-        const bpmElement = document.getElementById('bpmChart');
-        const dbElement = document.getElementById('dbChart');
-        const gasElement = document.getElementById('gasChart');
+        // Setup test data button
+        document.getElementById('testDataBtn').addEventListener('click', function() {
+            // Add test data
+            if (chartLabels.length > 9) {
+                chartLabels.shift();
+                if (bpmData.length > 9) bpmData.shift();
+                if (dbData.length > 9) dbData.shift();
+                if (gasData.length > 9) gasData.shift();
+            }
+            
+            const now = new Date().toLocaleTimeString();
+            chartLabels.push(now);
+            
+            // Add random test values
+            bpmData.push(Math.floor(70 + Math.random() * 30)); // 70-100 BPM
+            dbData.push(Math.floor(50 + Math.random() * 40));  // 50-90 dB
+            gasData.push(Math.floor(100 + Math.random() * 400)); // 100-500 Gas level
+            
+            // Update charts
+            if (bpmChart) {
+                bpmChart.data.labels = chartLabels;
+                bpmChart.data.datasets[0].data = bpmData;
+                bpmChart.update('none');
+            }
+            
+            if (dbChart) {
+                dbChart.data.labels = chartLabels;
+                dbChart.data.datasets[0].data = dbData;
+                dbChart.update('none');
+            }
+            
+            if (gasChart) {
+                gasChart.data.labels = chartLabels;
+                gasChart.data.datasets[0].data = gasData;
+                gasChart.update('none');
+            }
+            
+            // Update latest data display
+            updateLatestData();
+        });
         
-        if (bpmElement && dbElement && gasElement) {
-            console.log("All chart elements found, initializing charts");
-            initCharts();
-            initialized = true;
-        } else {
-            console.error("Chart elements not found", { 
-                bpmFound: !!bpmElement, 
-                dbFound: !!dbElement, 
-                gasFound: !!gasElement 
-            });
-        }
+        // Add error handling for Firebase connection
+        setTimeout(() => {
+            if (bpmData.length === 0 && dbData.length === 0 && gasData.length === 0) {
+                console.log("No data received from Firebase after 5 seconds");
+                document.getElementById('latestData').innerHTML = `
+                    <p class="text-danger"><strong>Error:</strong> No se pudieron obtener datos de Firebase. Verifique su conexión.</p>
+                    <p>Paths esperados: bpm001, db001, gas001</p>
+                    <p>Revise la consola del navegador para más información.</p>
+                `;
+            }
+        }, 5000);
     });
     </script>
 </body>
