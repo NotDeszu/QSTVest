@@ -26,71 +26,6 @@ require_once '../../../BD/conexion.php';
 
 <body>
 
-<header class="header">
-    <div class="header__top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="header__top__left">
-                        <ul>
-                            <li><i class="fa fa-envelope"></i>
-                                <?php
-                                if (empty($_SESSION["usu_id"])) {
-                                    echo " ";
-                                } else {
-                                    echo $_SESSION["usu_email"];
-                                }
-                                ?>
-                            </li>
-                            <li>Envios a toda la republica Mexicana</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="header__top__right">
-                        <div class="header__top__right__social">
-
-                            <!-- Esta parte muestra un link hacia el panel administrador, si es que el usuario logeado tiene el rol de admin -->
-                            <?php
-                            if (isset($_SESSION["rol_id"])) {
-                                if ($_SESSION["rol_id"] == 0) {
-                                    echo " ";
-                                } elseif ($_SESSION["rol_id"] == 1) { ?>
-                                    <a href="../../indexAdmin.php">Pagina de Administrador</a>
-                            <?php
-                                } else {
-                                    echo " ";
-                                }
-                            } else {
-                                echo " ";
-                            }
-                            ?>
-                            <?php
-                            if (isset($_SESSION["rol_id"])) {
-                                echo '<a href="HistoriaC.php">Ver Mis compras</a>';
-                            }
-                            ?>
-                            <!-- fin -->
-                            <a href="https://www.facebook.com/casakuri"><i class="fa fa-facebook"></i></a>
-                            <a href="https://www.instagram.com/casa.kuri/"><i class="fa fa-instagram"></i></a>
-                        </div>
-                        <div class="header__top__right__auth">
-                            <a href="../controlador_cerrars2.php"><i class="fa fa-user"></i>
-                                <?php
-                                if (empty($_SESSION["usu_id"])) {
-                                    echo "Iniciar Sesion";
-                                } else {
-                                    echo "Cerrar Sesion";
-                                }
-                                ?>
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Aqui termina el header top -->
     <div class="container">
         <div class="row">
@@ -115,55 +50,64 @@ require_once '../../../BD/conexion.php';
         </div>
     </div>
 </header>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="blog__details__content">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="blog__details__text">
-                                <h3>Monitoreo de datos en tiempo real</h3>
-                                <p>A continuación se muestran las gráficas de los datos enviados desde el chaleco inteligente</p>
-                            </div>
-                            
-                            <!-- BPM Chart -->
-                            <div class="blog__details__chart mb-5">
-                                <h4>Frecuencia Cardíaca (BPM)</h4>
-                                <canvas id="bpmChart" width="750" height="300"></canvas>
-                            </div>
-                            
-                            <!-- Decibels Chart -->
-                            <div class="blog__details__chart mb-5">
-                                <h4>Decibeles (dB)</h4>
-                                <canvas id="dbChart" width="750" height="300"></canvas>
-                            </div>
-                            
-                            <!-- Gas Chart -->
-                            <div class="blog__details__chart mb-5">
-                                <h4>Sensor de Gas</h4>
-                                <canvas id="gasChart" width="750" height="300"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="blog__details__sidebar">
-                                <div class="blog__details__sidebar__item">
-                                    <h4>Datos en tiempo real</h4>
-                                    <div id="latestData">
-                                        <p>Cargando datos...</p>
-                                    </div>
-                                    <div class="mt-3">
-                                        <button id="testDataBtn" class="btn btn-primary">Probar con datos de ejemplo</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- Contenido de graficas -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Monitoreo de datos en tiempo real</h3>
+            <p>A continuación se muestran las gráficas de los datos enviados desde el chaleco inteligente</p>
+        </div>
+    </div>
+    
+    <!-- First row with two charts side by side -->
+    <div class="row">
+        <!-- BPM Chart - Left -->
+        <div class="col-md-6">
+            <div class="blog__details__chart mb-4">
+                <h4>Frecuencia Cardíaca (BPM)</h4>
+                <canvas id="bpmChart" width="100%" height="300"></canvas>
+            </div>
+        </div>
+        
+        <!-- Decibels Chart - Right -->
+        <div class="col-md-6">
+            <div class="blog__details__chart mb-4">
+                <h4>Decibeles (dB)</h4>
+                <canvas id="dbChart" width="100%" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Second row with Gas chart and data panel side by side -->
+    <div class="row">
+        <!-- Gas Chart - Left -->
+        <div class="col-md-6">
+            <div class="blog__details__chart mb-4">
+                <h4>Sensor de Gas</h4>
+                <canvas id="gasChart" width="100%" height="300"></canvas>
+            </div>
+        </div>
+        
+        <!-- Data Panel - Right -->
+        <div class="col-md-6">
+            <div class="blog__details__sidebar">
+                <div class="blog__details__sidebar__item">
+                    <h4>Datos en tiempo real</h4>
+                    <div id="latestData">
+                        <p>Frecuencia Cardiaca: 78 BPM</p>
+                        <p>Decibeles: 11 dB</p>
+                        <p>Sensor de Gas: 849</p>
+                        <p>Tiempo: 9:39:43 p.m.</p>
+                    </div>
+                    <div class="mt-3">
+                        <button id="testDataBtn" class="btn btn-primary">Probar con datos de ejemplo</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+</div>
+    <!-- Aqui termina el contenido de graficas -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     
     <script type="module">
@@ -507,9 +451,9 @@ require_once '../../../BD/conexion.php';
             chartLabels.push(now);
             
             // Add random test values
-            bpmData.push(Math.floor(70 + Math.random() * 30)); // 70-100 BPM
-            dbData.push(Math.floor(50 + Math.random() * 40));  // 50-90 dB
-            gasData.push(Math.floor(100 + Math.random() * 400)); // 100-500 Gas level
+            bpmData.push(Math.floor(70 + Math.random() * 45)); // 70-100 BPM
+            dbData.push(Math.floor(50 + Math.random() * 50));  // 50-90 dB
+            gasData.push(Math.floor(100 + Math.random() * 450)); // 100-500 Gas level
             
             // Update charts
             if (bpmChart) {
