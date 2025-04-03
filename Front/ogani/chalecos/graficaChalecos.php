@@ -32,7 +32,7 @@ require_once '../../../BD/conexion.php';
             <div class="col-lg-2">
                 <div class="header__logo">
                     <a href="../index.php"><img src="../img/logo rm qs.png" alt="" width="200"></a>
-                </div>
+                </div>  
             </div>
             <div class="col-lg-8">
                 <nav class="header__menu">
@@ -429,6 +429,19 @@ require_once '../../../BD/conexion.php';
                 <p><strong>Sensor de Gas:</strong> ${gasVal}</p>
                 <p><strong>Tiempo:</strong> ${timeString}</p>
             `;
+
+            // Check thresholds and show warnings
+            if (bpmVal < 60 || bpmVal > 120) {
+                latestDataElement.innerHTML += `<div class="alert alert-danger">¡Alerta! Frecuencia cardíaca fuera de rango: ${bpmVal} BPM</div>`;
+            }
+
+            if (dbVal > 85) {
+                latestDataElement.innerHTML += `<div class="alert alert-warning">¡Alerta! Nivel de ruido alto: ${dbVal} dB</div>`;
+            }
+
+            if (gasVal > 700) {
+                latestDataElement.innerHTML += `<div class="alert alert-danger">¡Alerta! Nivel de gas peligroso: ${gasVal}</div>`;
+            }
         }
     }
     
