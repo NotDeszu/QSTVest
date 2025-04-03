@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+session_start();
 
 // Database connection from your existing file
 require_once '../../../BD/conexion.php';
@@ -39,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = $data['db'];
     $gas = $data['gas'];
     $timestamp = isset($data['timestamp']) ? $data['timestamp'] : date('Y-m-d H:i:s');
-    $userId = isset($data['userId']) ? $data['userId'] : 'default_user';
+    //$userId = isset($data['userId']) ? $data['userId'] : 'default_user';
+    $userId = isset($_SESSION["usu_email"]) ? $_SESSION["usu_email"] : '';
     
     try {
         // Prepare the SQL statement
