@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+file_put_contents('debug.log', "Request received: " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+file_put_contents('debug.log', file_get_contents('php://input') . "\n", FILE_APPEND);
+
 // Process form submission
 require_once '../../../BD/conexion.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,15 +18,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Check if record exists
     if ($result->num_rows > 0) {
-        include "graficaChalecos.php";
-        // You can retrieve and display additional information if needed
-        // $device = $result->fetch_assoc();
-        // echo "Device details: " . $device["some_column"];
+        // Redirect to graficaChalecos.php instead of including it
+        header("Location: graficaChalecos.php?device=" . $deviceRecord);
+        exit;
     } else {
-        //echo "Device does not exist in our database.";
-        include "notFound.html";
+        // Redirect to notFound.html
+        header("Location: notFound.html");
+        exit;
     }
     
     $stmt->close();
 }
 ?>
+
+<form action="logsChalecos.php" method="post">
+  <input type="hidden" name="test" value="1">
+  <button type="submit">Test API</button>
+</form>
+

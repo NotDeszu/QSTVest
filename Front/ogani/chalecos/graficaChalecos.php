@@ -442,6 +442,44 @@ require_once '../../../BD/conexion.php';
             if (gasVal > 700) {
                 latestDataElement.innerHTML += `<div class="alert alert-danger">¡Alerta! Nivel de gas peligroso: ${gasVal}</div>`;
             }
+            
+            // Save data to MariaDB
+            saveToMariaDB(bpmVal, dbVal, gasVal);
+        }
+    }
+    
+    // Function to send data to MariaDB via AJAX
+    function saveToMariaDB(bpmVal, dbVal, gasVal) {
+        // Only save data if we have values for all sensors
+        if (bpmVal !== "N/A" && dbVal !== "N/A" && gasVal !== "N/A") {
+            // Create data object
+            const dataToSave = {
+                bpm: bpmVal,
+                db: dbVal,
+                gas: gasVal,
+                timestamp: new Date().toISOString().slice(0, 19).replace('T', ' '), // Format: YYYY-MM-DD HH:MM:SS
+                userId: auth.currentUser ? auth.currentUser.uid : 'anonymous'
+            };
+            
+            // Send data to server
+            fetch('logsChalecos.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSave)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Data saved to MariaDB:', data.message);
+                } else {
+                    console.error('Error saving to MariaDB:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error sending data to server:', error);
+            });
         }
     }
     
@@ -489,6 +527,12 @@ require_once '../../../BD/conexion.php';
             
             // Update latest data display
             updateLatestData();
+            
+            // Save test data to MariaDB as well
+            const testBpm = bpmData[bpmData.length - 1];
+            const testDb = dbData[dbData.length - 1];
+            const testGas = gasData[gasData.length - 1];
+            saveToMariaDB(testBpm, testDb, testGas);
         });
         
         // Add error handling for Firebase connection
