@@ -53,9 +53,17 @@ require_once '../../../BD/conexion.php';
 <!-- Contenido de graficas -->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12">
+        <div class="col-10">
             <h3>Monitoreo de datos en tiempo real</h3>
             <p>A continuación se muestran las gráficas de los datos enviados desde el chaleco inteligente</p>
+        </div>
+        <div class="col-2">
+            <button id="historial" class="btn btn-light">Historial</button>
+                <script>
+                    document.getElementById("historial").addEventListener("click", function() {
+                    window.location.href = "historial.php";
+                    });
+                </script>
         </div>
     </div>
     
